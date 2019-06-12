@@ -6,7 +6,7 @@
 *
 *    This wp-cli package would not be possible without the help and amazing effort
 *    supplied by Ahmad Awais(@MrAhmadAwais). Please give him some love and help support
-*    this amazing peice of software.
+*    this amazing piece of software.
 *
 * ## Examples
 *
