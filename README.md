@@ -3,13 +3,17 @@ chris-odell-focs/wp-cli-block-extensions
 
 Extensions for performing block actions e.g. create-guten-block
 
-[![Build Status](https://travis-ci.org/chris-odell-focs/wp-cli-block-extensions.svg?branch=master)](https://travis-ci.org/chris-odell-focs/wp-cli-block-extensions)
-
 Quick links: [Using](#using) | [Installing](#installing) | [Contributing](#contributing) | [Support](#support)
 
 ## Using
 
+For usage notes and examples please see the built in help after installation
 
+Currently the most useful help page is :-
+
+$ wp help blex cgb
+
+More informatin can be found at the [WP-CLI Blex home site](https://blex.foxdellfolio.com/ "WP-CLI Blex Home").
 
 ## Installing
 
