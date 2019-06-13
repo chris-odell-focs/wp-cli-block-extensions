@@ -1,4 +1,7 @@
 <?php
+
+namespace FoFo_Blex;
+
 /**
 * Lightweight wrapper around the create-guten-block dev-toolkit.
 *

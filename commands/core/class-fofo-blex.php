@@ -1,5 +1,7 @@
 <?php
 
+namespace FoFo_Blex;
+
 /**
 * Block Extensions are a set of wp-cli command line utilities to make it easier and quicker to build gutenberg blocks.
 *
