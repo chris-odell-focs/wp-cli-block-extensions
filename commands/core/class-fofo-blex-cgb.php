@@ -64,32 +64,32 @@ class FoFo_Blex_CGB {
 				if( count( $args ) > 0  && trim( $args[0] ) !== '' ) {
 					passthru( 'npx create-guten-block '.$args[0] );
 
-					WP_CLI::log('');
-					WP_CLI::success('*********************************************************');
-					WP_CLI::success('**                                                     **');
-					WP_CLI::success('**      YOU CAN RUN THE ABOVE COMMANDS FROM BLEX       **');
-					WP_CLI::success('**                                                     **');
-					WP_CLI::success('*********************************************************');
-					WP_CLI::log('');
-					WP_CLI::log('Because you have created the block using blex the following commands above can be run');
-					WP_CLI::log('with the following wp blex commands :-');
-					WP_CLI::log('');
-					WP_CLI::log('npm start => wp blex cgb start');
-					WP_CLI::log('');
-					WP_CLI::log('npm run build => wp blex cgb build');
-					WP_CLI::log('');
-					WP_CLI::log('npm run eject => wp blex cgb eject');
-					WP_CLI::log('');
-					WP_CLI::success('** THANK YOU FOR USING BLEX WE HOPE IT MAKES YOUR DAY EASIER **');
-					WP_CLI::log('');
+					\WP_CLI::log('');
+					\WP_CLI::success('*********************************************************');
+					\WP_CLI::success('**                                                     **');
+					\WP_CLI::success('**      YOU CAN RUN THE ABOVE COMMANDS FROM BLEX       **');
+					\WP_CLI::success('**                                                     **');
+					\WP_CLI::success('*********************************************************');
+					\WP_CLI::log('');
+					\WP_CLI::log('Because you have created the block using blex the following commands above can be run');
+					\WP_CLI::log('with the following wp blex commands :-');
+					\WP_CLI::log('');
+					\WP_CLI::log('npm start => wp blex cgb start');
+					\WP_CLI::log('');
+					\WP_CLI::log('npm run build => wp blex cgb build');
+					\WP_CLI::log('');
+					\WP_CLI::log('npm run eject => wp blex cgb eject');
+					\WP_CLI::log('');
+					\WP_CLI::success('** THANK YOU FOR USING BLEX WE HOPE IT MAKES YOUR DAY EASIER **');
+					\WP_CLI::log('');
 
 
 				} else {
-					WP_CLI::error( 'No name was supplied for the block.' );
+					\WP_CLI::error( 'No name was supplied for the block.' );
 				}
 				
 			} else {
-				WP_CLI::error( 'You need to be in the plugins folder of a WordPress installation to run that command.' );
+				\WP_CLI::error( 'You need to be in the plugins folder of a WordPress installation to run that command.' );
 			}
 
 			
@@ -179,21 +179,21 @@ class FoFo_Blex_CGB {
 
 		$result = true;
 
-		$report = WP_CLI::launch( 'node -v', false, true );
+		$report = \WP_CLI::launch( 'node -v', false, true );
 		if( '' !== $report->stderr ) {
 
 			$result = false;
-			WP_CLI::log('');
-			WP_CLI::warning('Node.js and NPM are not installed, and are required to continue.' );
-			WP_CLI::log('');
-			WP_CLI::log('*************************************************************************************************************************' );
-			WP_CLI::log('**                                                                                                                     **' );
-			WP_CLI::log('** Blex works best with Node version >= 8 and npm version >= 5.3                                                       **' );
-			WP_CLI::log('** Please go to https://nodejs.org/en/download/ for more information.                                                  **' );
-			WP_CLI::log('** For Linux distros please check the version of Node.js in the repository before installing using a package manager.  **' );
-			WP_CLI::log('**                                                                                                                     **' );
-			WP_CLI::log('*************************************************************************************************************************' );
-			WP_CLI::log('');
+			\WP_CLI::log('');
+			\WP_CLI::warning('Node.js and NPM are not installed, and are required to continue.' );
+			\WP_CLI::log('');
+			\WP_CLI::log('*************************************************************************************************************************' );
+			\WP_CLI::log('**                                                                                                                     **' );
+			\WP_CLI::log('** Blex works best with Node version >= 8 and npm version >= 5.3                                                       **' );
+			\WP_CLI::log('** Please go to https://nodejs.org/en/download/ for more information.                                                  **' );
+			\WP_CLI::log('** For Linux distros please check the version of Node.js in the repository before installing using a package manager.  **' );
+			\WP_CLI::log('**                                                                                                                     **' );
+			\WP_CLI::log('*************************************************************************************************************************' );
+			\WP_CLI::log('');
 		}
 
 		return $result;

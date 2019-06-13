@@ -11,4 +11,6 @@ namespace FoFo_Blex;
 *    all the team at https://wp-cli.org/ (@wpcli)
 *
 */
-class FoFo_Blex { }
+class FoFo_Blex {
+
+}
