@@ -10,6 +10,10 @@ namespace FoFo_Blex;
 *    These utilities would not be available without the fantastic work by
 *    all the team at https://wp-cli.org/ (@wpcli)
 *
+* ## Info
+*
+*    Version 1.0.1
+*
 */
 class FoFo_Blex {
 
