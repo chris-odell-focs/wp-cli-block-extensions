@@ -14,11 +14,6 @@
     "require-dev": {
         "wp-cli/wp-cli": "*",
         "behat/behat": "~2.5"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0.1"
-        }
     }
 }
 
