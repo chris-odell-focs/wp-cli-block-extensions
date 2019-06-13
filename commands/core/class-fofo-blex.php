@@ -12,7 +12,7 @@ namespace FoFo_Blex;
 *
 * ## Info
 *
-*    Version 1.0.1
+*    Version 1.0.2
 *
 */
 class FoFo_Blex {
