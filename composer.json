@@ -10,7 +10,9 @@
     "autoload": {
         "files": [ "command.php" ]
     },
-    "require": { },
+    "require": {
+        "chris-odell-focs/wp-cli-block-extensions": "1.0.1"
+    },
     "require-dev": {
         "wp-cli/wp-cli": "*",
         "behat/behat": "~2.5"
