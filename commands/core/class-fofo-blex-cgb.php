@@ -48,6 +48,9 @@ class FoFo_Blex_CGB {
 	*    see https://github.com/ahmadawais/create-guten-block for more information
 	*    about using create-guten-block.
 	*
+	*    create-guten-block supports older versions of npm but blex currently only
+	*    supports npm versions >= 5.2!
+	*
 	* ## Examples
 	*
 	*    # Create a block
