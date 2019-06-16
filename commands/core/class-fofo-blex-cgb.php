@@ -65,27 +65,33 @@ class FoFo_Blex_CGB {
 			if( $this->in_wp_plugins_folder() ) {
 
 				if( count( $args ) > 0  && trim( $args[0] ) !== '' ) {
-					passthru( 'npx create-guten-block '.$args[0] );
 
-					\WP_CLI::log('');
-					\WP_CLI::success('*********************************************************');
-					\WP_CLI::success('**                                                     **');
-					\WP_CLI::success('**      YOU CAN RUN THE ABOVE COMMANDS FROM BLEX       **');
-					\WP_CLI::success('**                                                     **');
-					\WP_CLI::success('*********************************************************');
-					\WP_CLI::log('');
-					\WP_CLI::log('Because you have created the block using blex the following commands above can be run');
-					\WP_CLI::log('with the following wp blex commands :-');
-					\WP_CLI::log('');
-					\WP_CLI::log('npm start => wp blex cgb start');
-					\WP_CLI::log('');
-					\WP_CLI::log('npm run build => wp blex cgb build');
-					\WP_CLI::log('');
-					\WP_CLI::log('npm run eject => wp blex cgb eject');
-					\WP_CLI::log('');
-					\WP_CLI::success('** THANK YOU FOR USING BLEX WE HOPE IT MAKES YOUR DAY EASIER **');
-					\WP_CLI::log('');
+					$pass_thru_return_var = null;
+					$block_name = $args[0];
 
+					passthru( 'npx create-guten-block '.$block_name, $pass_thru_return_var );
+
+					if($pass_thru_return_var === 0) {
+
+						\WP_CLI::log('');
+						\WP_CLI::success('*********************************************************');
+						\WP_CLI::success('**                                                     **');
+						\WP_CLI::success('**      YOU CAN RUN THE ABOVE COMMANDS FROM BLEX       **');
+						\WP_CLI::success('**                                                     **');
+						\WP_CLI::success('*********************************************************');
+						\WP_CLI::log('');
+						\WP_CLI::log('Because you have created the block using blex the following commands above can be run');
+						\WP_CLI::log('with the following wp blex commands :-');
+						\WP_CLI::log('');
+						\WP_CLI::log('npm start => wp blex cgb start');
+						\WP_CLI::log('');
+						\WP_CLI::log('npm run build => wp blex cgb build');
+						\WP_CLI::log('');
+						\WP_CLI::log('npm run eject => wp blex cgb eject');
+						\WP_CLI::log('');
+						\WP_CLI::success('** THANK YOU FOR USING BLEX WE HOPE IT MAKES YOUR DAY EASIER **');
+						\WP_CLI::log('');
+					}
 
 				} else {
 					\WP_CLI::error( 'No name was supplied for the block.' );
@@ -94,10 +100,7 @@ class FoFo_Blex_CGB {
 			} else {
 				\WP_CLI::error( 'You need to be in the plugins folder of a WordPress installation to run that command.' );
 			}
-
-			
 		}
-
 	}
 
 	/**
