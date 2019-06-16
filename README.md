@@ -13,7 +13,7 @@ Currently the most useful help page is :-
 
 $ wp help blex cgb
 
-More informatin can be found at the [WP-CLI Blex home site](https://blex.foxdellfolio.com/ "WP-CLI Blex Home").
+More information can be found at the [WP-CLI Blex home site](https://blex.foxdellfolio.com/ "WP-CLI Blex Home").
 
 ## Installing
 
