@@ -15,6 +15,11 @@ $ wp help blex cgb
 
 More information can be found at the [WP-CLI Blex home site](https://blex.foxdellfolio.com/ "WP-CLI Blex Home").
 
+## Requirements
+
+* A working WordPress installation
+* npm version >= 5.2
+
 ## Installing
 
 Installing this package requires WP-CLI v1.1.0 or greater. Update to the latest stable release with `wp cli update`.
