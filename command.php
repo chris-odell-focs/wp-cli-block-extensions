@@ -10,19 +10,23 @@ spl_autoload_register(function ($class){
 	$namspace = 'FoFo_Blex\\';
 	if( false !== strpos( $class, $namspace ) ) {
 
-		$require_types = [ 'class', 'abstract', 'interface' ];
-
 		$class = str_replace( $namspace, '', $class );
 		$class_stub = strtolower( str_replace( '_', '-', $class ).'.php' );
 		$_s = DIRECTORY_SEPARATOR;
 
-		$base_dir = dirname( __FILE__ ).$_s.'commands'.$_s.'core'.$_s;
+		$require_types = [ 'class', 'abstract', 'interface' ];
+		$folders = [ 'commands'.$_s.'core', 'includes' ];
 
-		foreach( $require_types as $require_type ) {
+		foreach( $folders as $folder_stub ) {
 
-			if( file_exists( $base_dir.$require_type.'-'.$class_stub ) ) {
+			$base_dir = dirname( __FILE__ ).$_s.$folder_stub.$_s;
 
-				require_once( $base_dir.$require_type.'-'.$class_stub );
+			foreach( $require_types as $require_type ) {
+
+				if( file_exists( $base_dir.$require_type.'-'.$class_stub ) ) {
+
+					require_once( $base_dir.$require_type.'-'.$class_stub );
+				}
 			}
 		}
 	}

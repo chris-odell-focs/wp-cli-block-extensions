@@ -9,12 +9,33 @@ namespace FoFo_Blex;
 *
 *    These utilities would not be available without the fantastic work by
 *    all the team at https://wp-cli.org/ (@wpcli)
-*
-* ## Info
-*
-*    Version 1.0.2
-*
 */
-class FoFo_Blex {
+class FoFo_Blex extends FoFo_Blex_Command {
 
+	const VERSION = '1.0.3';
+
+	/**
+	* Clones a block (code and folders)
+	*
+	* @subcommand clone
+	*/
+	public function clone_block( $args, $assoc_args ) {
+
+		$this->execute( $args, $assoc_args, function( $args, $assoc_args ) {
+
+			\WP_CLI::log('clone called with ' . $args[0]);
+
+		});
+
+	}
+
+	public function info() {
+
+		$this->execute( [], [], function( $args, $assoc_args ) {
+
+			\WP_CLI::log('Current blex version '.self::VERSION);
+
+		});
+
+	}
 }

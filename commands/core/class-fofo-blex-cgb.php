@@ -31,7 +31,7 @@ namespace FoFo_Blex;
 *    please visit https://github.com/ahmadawais/create-guten-block
 * 
 */
-class FoFo_Blex_CGB {
+class FoFo_Blex_CGB extends FoFo_Blex_Command {
 
 	/**
 	* Creates a block using create-guten-block
@@ -60,47 +60,52 @@ class FoFo_Blex_CGB {
 	*/
 	public function create($args) {
 
-		if( $this->do_node_check() ) {
+		$this->execute( $args, [], function( $args, $assoc_args ) {
 
-			if( $this->in_wp_plugins_folder() ) {
+			if( $this->do_node_check() ) {
 
-				if( count( $args ) > 0  && trim( $args[0] ) !== '' ) {
+				if( $this->in_wp_plugins_folder() ) {
 
-					$pass_thru_return_var = null;
-					$block_name = $args[0];
+					if( count( $args ) > 0  && trim( $args[0] ) !== '' ) {
 
-					passthru( 'npx create-guten-block '.$block_name, $pass_thru_return_var );
+						$pass_thru_return_var = null;
+						$block_name = $args[0];
 
-					if($pass_thru_return_var === 0) {
+						passthru( 'npx create-guten-block '.$block_name, $pass_thru_return_var );
 
-						\WP_CLI::log('');
-						\WP_CLI::success('*********************************************************');
-						\WP_CLI::success('**                                                     **');
-						\WP_CLI::success('**      YOU CAN RUN THE ABOVE COMMANDS FROM BLEX       **');
-						\WP_CLI::success('**                                                     **');
-						\WP_CLI::success('*********************************************************');
-						\WP_CLI::log('');
-						\WP_CLI::log('Because you have created the block using blex the following commands above can be run');
-						\WP_CLI::log('with the following wp blex commands :-');
-						\WP_CLI::log('');
-						\WP_CLI::log('npm start => wp blex cgb start');
-						\WP_CLI::log('');
-						\WP_CLI::log('npm run build => wp blex cgb build');
-						\WP_CLI::log('');
-						\WP_CLI::log('npm run eject => wp blex cgb eject');
-						\WP_CLI::log('');
-						\WP_CLI::success('** THANK YOU FOR USING BLEX WE HOPE IT MAKES YOUR DAY EASIER **');
-						\WP_CLI::log('');
+						if($pass_thru_return_var === 0) {
+
+							\WP_CLI::log('');
+							\WP_CLI::success('*********************************************************');
+							\WP_CLI::success('**                                                     **');
+							\WP_CLI::success('**      YOU CAN RUN THE ABOVE COMMANDS FROM BLEX       **');
+							\WP_CLI::success('**                                                     **');
+							\WP_CLI::success('*********************************************************');
+							\WP_CLI::log('');
+							\WP_CLI::log('Because you have created the block using blex the following commands above can be run');
+							\WP_CLI::log('with the following wp blex commands :-');
+							\WP_CLI::log('');
+							\WP_CLI::log('npm start => wp blex cgb start');
+							\WP_CLI::log('');
+							\WP_CLI::log('npm run build => wp blex cgb build');
+							\WP_CLI::log('');
+							\WP_CLI::log('npm run eject => wp blex cgb eject');
+							\WP_CLI::log('');
+							\WP_CLI::success('** THANK YOU FOR USING BLEX WE HOPE IT MAKES YOUR DAY EASIER **');
+							\WP_CLI::log('');
+						}
+
+					} else {
+
+						throw new FoFo_Blex_Command_Exception( 'No name was supplied for the block.' );
 					}
-
-				} else {
-					\WP_CLI::error( 'No name was supplied for the block.' );
-				}
 				
-			} else {
-				\WP_CLI::error( 'You need to be in the plugins folder of a WordPress installation to run that command.' );
+				} else {
+
+					throw new FoFo_Blex_Command_Exception( 'You need to be in the plugins folder of a WordPress installation to run that command.' );
+				}
 			}
-		}
+		});
 	}
 
 	/**
@@ -123,10 +128,14 @@ class FoFo_Blex_CGB {
 	*/
 	public function start() {
 
-		if( $this->do_node_check() ) {
+		$this->execute( [], [], function( $args, $assoc_args ) {
 
-			passthru( 'npm start' );
-		}	
+			if( $this->do_node_check() ) {
+
+				passthru( 'npm start' );
+			}
+
+		});
 	}
 
 	/**
@@ -149,10 +158,14 @@ class FoFo_Blex_CGB {
 	*/
 	public function build() {
 
-		if( $this->do_node_check() ) {
+		$this->execute( [], [], function( $args, $assoc_args ) {
 
-			passthru( 'npm run build' );
-		}	
+			if( $this->do_node_check() ) {
+
+				passthru( 'npm run build' );
+			}
+
+		});
 	}
 
 	/**
@@ -175,10 +188,13 @@ class FoFo_Blex_CGB {
 	*/
 	public function eject() {
 
-		if( $this->do_node_check() ) {
+		$this->execute( [], [], function( $args, $assoc_args ) {
 
-			passthru( 'npm run eject' );
-		}	
+			if( $this->do_node_check() ) {
+
+				passthru( 'npm run eject' );
+			}
+		});
 	}
 
 	private function do_node_check() {
