@@ -50,11 +50,11 @@ class Process {
 	 * @return Process
 	 */
 	public static function create( $command, $cwd = null, $env = array() ) {
-		$proc = new self();
+		$proc = new self;
 
 		$proc->command = $command;
-		$proc->cwd     = $cwd;
-		$proc->env     = $env;
+		$proc->cwd = $cwd;
+		$proc->env = $env;
 
 		return $proc;
 	}
@@ -91,13 +91,13 @@ class Process {
 
 		return new ProcessRun(
 			array(
-				'stdout'      => $stdout,
-				'stderr'      => $stderr,
+				'stdout' => $stdout,
+				'stderr' => $stderr,
 				'return_code' => $return_code,
-				'command'     => $this->command,
-				'cwd'         => $this->cwd,
-				'env'         => $this->env,
-				'run_time'    => $run_time,
+				'command' => $this->command,
+				'cwd' => $this->cwd,
+				'env' => $this->env,
+				'run_time' => $run_time,
 			)
 		);
 	}
@@ -110,7 +110,8 @@ class Process {
 	public function run_check() {
 		$r = $this->run();
 
-		if ( $r->return_code ) {
+		// $r->STDERR is incorrect, but kept incorrect for backwards-compat
+		if ( $r->return_code || ! empty( $r->STDERR ) ) {
 			throw new \RuntimeException( $r );
 		}
 
