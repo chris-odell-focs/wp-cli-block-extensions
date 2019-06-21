@@ -15,20 +15,12 @@ class FoFo_Blex extends FoFo_Blex_Command {
 	const VERSION = '1.0.3';
 
 	/**
-	* Clones a block (code and folders)
+	* Get information for the BlocExtensions package
 	*
-	* @subcommand clone
+	* ## Examples
+	*
+	*	$ wp blex info
 	*/
-	public function clone_block( $args, $assoc_args ) {
-
-		$this->execute( $args, $assoc_args, function( $args, $assoc_args ) {
-
-			\WP_CLI::log('clone called with ' . $args[0]);
-
-		});
-
-	}
-
 	public function info() {
 
 		$this->execute( [], [], function( $args, $assoc_args ) {
