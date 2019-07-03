@@ -10,7 +10,9 @@
     "autoload": {
         "files": [ "command.php" ]
     },
-    "require": {},
+    "require": {
+        "mck89/peast": "dev-master"
+    },
     "require-dev": {
         "wp-cli/wp-cli": "*",
         "behat/behat": "~2.5"

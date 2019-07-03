@@ -12,14 +12,40 @@ namespace FoFo_Blex;
 */
 class FoFo_Blex extends FoFo_Blex_Command {
 
-	const VERSION = '1.0.3';
+	const VERSION = '1.0.4';
 
 	/**
-	* Get information for the BlocExtensions package
+	* Initialise a new block into blex by generating a blex.info.json file
+	*
+	* ## Notes
+	*
+	*	Needs to be in the plugin folder to run. The blex.info.json file
+	*   holds information such as the location of the 'src' folder. This
+	*	information is then used for other blex commands to manipulate the block.
+	*
+	* ## Options
+	*
+	*	[--template=<template>]
+	*   : The template to use to initialise the new block, template can be one of cgb(default) or cgb-ejected
 	*
 	* ## Examples
 	*
-	*	$ wp blex info
+	*	$ wp blex initialise
+	*   $ wp blex initialise --template=cgb
+	*	$ wp blex initialise --template=cgb-ejected
+	*/
+	public function initialise( $args, $assoc_args ) {
+
+		$importer = new FoFo_Blex_Import( $args, $assoc_args );
+		$importer->do_init();
+	}
+
+	/**
+	* Get information about the BlockExtensions package
+	*
+	* ## Examples
+	*
+	*    $ wp blex info
 	*/
 	public function info() {
 
