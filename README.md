@@ -3,7 +3,7 @@ chris-odell-focs/wp-cli-block-extensions
 
 Extensions for performing block actions e.g. create-guten-block
 
-Quick links: [Using](#using) | [Installing](#installing) | [Contributing](#contributing) | [Support](#support)
+Quick links: [Using](#using) | [Installing](#installing) | [Donating](#donating) | [Contributing](#contributing) | [Support](#support)
 
 ## Using
 
@@ -27,6 +27,13 @@ Installing this package requires WP-CLI v1.1.0 or greater. Update to the latest 
 Once you've done so, you can install this package with:
 
     wp package install git@github.com:chris-odell-focs/wp-cli-block-extensions.git
+
+## Donating
+
+If Block Extensions has saved you time building your blocks then please consider donating. Donating helps me to invest
+time into making bug fixes and improvements to the package.
+
+Donations can be made via my [Ko-Fi button](https://ko-fi.com/chrisodell).
 
 ## Contributing
 
