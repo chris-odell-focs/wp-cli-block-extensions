@@ -4,9 +4,9 @@ namespace FoFo_Blex;
 
 class FoFo_Blex_Utils {
 
-	public static function in_wp_plugins_sub_folder( $idx ) {
+	public static function in_wp_plugins_sub_folder( $idx, $folder ) {
 
-		$path_parts = explode( DIRECTORY_SEPARATOR, getcwd() );
+		$path_parts = explode( DIRECTORY_SEPARATOR, $folder );
 
 		$path_parts_length = count( $path_parts );
 		$have_path_parts = $path_parts_length > $idx;

@@ -217,3 +217,29 @@ $steps->Given( "/^a PHP built-in web server to serve '([^\s]+)'$/",
 		$world->start_php_server( $subdir );
 	}
 );
+
+$steps->Given( "/^a blex test block '([^\s]+)'$/",
+	function ( $world, $test_block_name ) {
+
+		$src = dirname(__FILE__).'/../../TestData/'.$test_block_name;
+		$dest = $world->variables['RUN_DIR'].'/wp-content/plugins/'.$test_block_name;
+
+		if( file_exists( $dest ) ) {
+			unset( $dest );
+		}
+
+		mkdir( $dest, 0777, true /*recursive*/ );
+		$world->inst_copy_dir( $src, $dest );
+	}
+);
+
+//$steps->Given( "/^the current WP directory is '([^\s]+)'$/",
+//	function ( $world, $dir_name ) {
+//
+//		$dest = $world->variables['RUN_DIR'].'/'.$dir_name;
+//		var_dump($dest);
+//		$world->proc( "cd ".$dest )->run_check();
+//
+//		var_dump(getcwd());
+//	}
+//);

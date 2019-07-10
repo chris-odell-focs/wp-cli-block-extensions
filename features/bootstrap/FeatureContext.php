@@ -184,6 +184,15 @@ class FeatureContext extends BehatContext implements ClosuredContextInterface {
 		echo 'WordPress ' . $result->stdout;
 		echo PHP_EOL;
 
+		//copy the blex test block to the wp install
+		//$wp_version_suffix = ( $wp_version = getenv( 'WP_VERSION' ) ) ? "-$wp_version" : '';
+		//$blex_data_dir = sys_get_temp_dir() . '/wp-cli-test-core-install-cache' . $wp_version_suffix.'/wp-content/plugins/blex-test-block';
+		//if( !file_exists( $blex_data_dir ) ) {
+		//	$test_data_dir = realpath( __DIR__ . '/../../TestData' );
+		//	var_dump($blex_data_dir);
+		//	var_dump($test_data_dir);
+		//}
+
 		// Remove install cache if any (not setting the static var).
 		$wp_version_suffix = ( $wp_version = getenv( 'WP_VERSION' ) ) ? "-$wp_version" : '';
 		$install_cache_dir = sys_get_temp_dir() . '/wp-cli-test-core-install-cache' . $wp_version_suffix;
@@ -594,6 +603,10 @@ class FeatureContext extends BehatContext implements ClosuredContextInterface {
 	 */
 	public static function copy_dir( $src_dir, $dest_dir ) {
 		Process::create( Utils\esc_cmd( "cp -r %s/* %s", $src_dir, $dest_dir ) )->run_check();
+	}
+
+	public function inst_copy_dir( $src_dir, $dest_dir ) {
+		self::copy_dir( $src_dir, $dest_dir );
 	}
 
 	public function add_line_to_wp_config( &$wp_config_code, $line ) {

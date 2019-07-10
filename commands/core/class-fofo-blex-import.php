@@ -24,6 +24,7 @@ class FoFo_Blex_Import extends FoFo_Blex_Command {
 		$this->build_cgb_ejected_template();
 
 		$this->set_template( isset( $assoc_args[ 'template' ] ) ? $assoc_args[ 'template' ] : 'cgb' );
+		$this->_current_folder = isset( $assoc_args[ 'working_dir' ] ) ? $assoc_args[ 'working_dir' ] : getcwd();
 	}
 
 	private function build_cgb_template() {
@@ -51,6 +52,7 @@ class FoFo_Blex_Import extends FoFo_Blex_Command {
 	private function set_template( $template ) {
 
 		$this->_current_template_name = $template;
+		$this->_template = null;
 
 		switch( $template ) {
 			case 'cgb':
@@ -68,13 +70,17 @@ class FoFo_Blex_Import extends FoFo_Blex_Command {
 
 			$this->report( 'Using template '.$this->_current_template_name );
 
-			if( !FoFo_Blex_Utils::in_wp_plugins_sub_folder(3) ) {
+			if( $this->_template === null ) {
 
-				throw new FoFo_Blex_Command_Exception( 'You do not appear to be in a subfolder of the wp-content/plugins.' );
+				throw new FoFo_Blex_Command_Exception( "The template '".$this->_current_template_name."' is not a recognised template and cannot be used" );
+			}
+
+			if( !FoFo_Blex_Utils::in_wp_plugins_sub_folder(3, $this->_current_folder) ) {
+
+				throw new FoFo_Blex_Command_Exception( 'You do not appear to be in a plugin folder' );
 			}
 
 			$blex_import = [];
-			$this->_current_folder = getcwd();
 
 			$blex_import[ 'config' ] = $this->check_folder( $this->_template[ 'config' ][ 'key' ], $this->_template[ 'config' ][ 'location' ] );
 			$this->report( "'config' value=".$blex_import[ 'config' ] );
