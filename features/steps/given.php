@@ -233,13 +233,12 @@ $steps->Given( "/^a blex test block '([^\s]+)'$/",
 	}
 );
 
-//$steps->Given( "/^the current WP directory is '([^\s]+)'$/",
-//	function ( $world, $dir_name ) {
-//
-//		$dest = $world->variables['RUN_DIR'].'/'.$dir_name;
-//		var_dump($dest);
-//		$world->proc( "cd ".$dest )->run_check();
-//
-//		var_dump(getcwd());
-//	}
-//);
+$steps->Given( "/^the (.+) file is missing$/",
+	function ( $world, $missing_file ) {
+
+		$missing_file = $world->replace_variables( $missing_file );
+		if( file_exists( $missing_file ) ) {
+			unlink( $missing_file );
+		}
+	}
+);

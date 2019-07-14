@@ -1,3 +1,4 @@
+@initialise
 Feature: Run '$ wp blex initialise'
 
   Scenario: No template specified on a non-ejected block and no working_dir specified

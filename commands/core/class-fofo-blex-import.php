@@ -82,6 +82,7 @@ class FoFo_Blex_Import extends FoFo_Blex_Command {
 
 			$blex_import = [];
 
+			$blex_import[ 'template' ] = $this->_current_template_name;
 			$blex_import[ 'config' ] = $this->check_folder( $this->_template[ 'config' ][ 'key' ], $this->_template[ 'config' ][ 'location' ] );
 			$this->report( "'config' value=".$blex_import[ 'config' ] );
 
@@ -90,22 +91,6 @@ class FoFo_Blex_Import extends FoFo_Blex_Command {
 
 			$blex_import[ 'imports' ] = $this->check_file( $this->_template[ 'imports' ][ 'key' ], $this->_template[ 'imports' ][ 'location' ] );
 			$this->report( "'imports' value=".$blex_import[ 'imports' ] );
-
-			$blex_import[ 'init' ][ 'location' ] = $this->check_file( $this->_template[ 'init-location' ][ 'key' ], $this->_template[ 'init-location' ][ 'location' ] );
-			$this->report( "'init location' value=".$blex_import[ 'init' ][ 'location' ] );
-
-			$dist_slugs = $this->extract_distributables_slugs( $blex_import[ 'init' ][ 'location' ] );
-			$blex_import[ 'init' ][ 'namespace' ] = $dist_slugs[ 'namespace' ];
-			$this->report( "'init namespace' value=".$blex_import[ 'init' ][ 'namespace' ] );
-
-			$blex_import[ 'init' ][ 'style' ] = $dist_slugs[ 'style' ];
-			$this->report( "'init style' value=".$blex_import[ 'init' ][ 'style' ] );
-
-			$blex_import[ 'init' ][ 'editor_script' ] = $dist_slugs[ 'editor_script' ];
-			$this->report( "'init namespace' value=".$blex_import[ 'init' ][ 'namespace' ] );
-
-			$blex_import[ 'init' ][ 'editor_style' ] = $dist_slugs[ 'editor_style' ];
-			$this->report( "'init editor_script' value=".$blex_import[ 'init' ][ 'editor_script' ] );
 
 			$blex_import[ 'src' ] = $this->check_folder( $this->_template[ 'src' ][ 'key' ], $this->_template[ 'src' ][ 'location' ] );
 			$this->report( "'src' value=".$blex_import[ 'src' ] );
@@ -120,7 +105,6 @@ class FoFo_Blex_Import extends FoFo_Blex_Command {
 
 			$this->report( 'Saving blex.info.json' );
 			$this->save_blocks( $blex_import );
-
 		});
 	}
 
@@ -196,6 +180,23 @@ class FoFo_Blex_Import extends FoFo_Blex_Command {
 		foreach( $subfolders as $subfolder ) {
 
 			$block_data = [];
+			$init_meta = [];
+
+			$init_meta[ 'location' ] = $this->check_file( $this->_template[ 'init-location' ][ 'key' ], $this->_template[ 'init-location' ][ 'location' ] );
+			$this->report( "'init location' value=".$init_meta[ 'location' ] );
+
+			$dist_slugs = $this->extract_distributables_slugs( $init_meta[ 'location' ] );
+			$init_meta[ 'namespace' ] = $dist_slugs[ 'namespace' ];
+			$this->report( "'init namespace' value=".$init_meta[ 'namespace' ] );
+
+			$init_meta[ 'style' ] = $dist_slugs[ 'style' ];
+			$this->report( "'init style' value=".$init_meta[ 'style' ] );
+
+			$init_meta[ 'editor_script' ] = $dist_slugs[ 'editor_script' ];
+			$this->report( "'init namespace' value=".$init_meta[ 'namespace' ] );
+
+			$init_meta[ 'editor_style' ] = $dist_slugs[ 'editor_style' ];
+			$this->report( "'init editor_script' value=".$init_meta[ 'editor_script' ] );
 
 			$src_file = $subfolder.DIRECTORY_SEPARATOR.$this->_template[ 'block-src' ];
 			if( !file_exists( $src_file ) ) {
@@ -205,9 +206,18 @@ class FoFo_Blex_Import extends FoFo_Blex_Command {
 			$css_pattern = '*'.$this->_template[ 'block-style-ext' ];
 			$css_files = glob( $subfolder.DIRECTORY_SEPARATOR.$css_pattern, 0 );
 
-			$block_data[ 'src_file' ] = $src_file;
-			$block_data[ 'styles' ] = $css_files;
+			$css_files_fixed = [];
+			foreach( $css_files as $css_file ) {
+
+				$css_files_fixed[] = str_replace( $this->_current_folder.DIRECTORY_SEPARATOR, '', $css_file );
+			}
+
+			$fixed_src = str_replace( $this->_current_folder, '.', $src_file );
+
+			$block_data[ 'src_file' ] = str_replace( $this->_current_folder.DIRECTORY_SEPARATOR, '', $src_file );
+			$block_data[ 'styles' ] = $css_files_fixed;
 			$block_data[ 'namespace' ] = '';
+			$block_data[ 'init' ] = $init_meta;
 			
 			if( '' !== $src_file ) {
 
