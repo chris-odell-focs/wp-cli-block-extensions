@@ -1,0 +1,15 @@
+{
+  "template": "cgb",
+  "config": "node_modules\/cgb-scripts\/config",
+  "dist": "dist",
+  "imports": "src\/blocks.js",
+  "init": {
+    "location": "src\/init.php",
+    "namespace": "cgb\/block-blex-test-block",
+    "style": "blex_test_block-cgb-style-css",
+    "editor_script": "blex_test_block-cgb-block-js",
+    "editor_style": "blex_test_block-cgb-block-editor-css"
+  },
+  "src": "src",
+  "blocks": []
+}

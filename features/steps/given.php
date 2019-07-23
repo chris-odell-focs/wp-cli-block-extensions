@@ -217,3 +217,92 @@ $steps->Given( "/^a PHP built-in web server to serve '([^\s]+)'$/",
 		$world->start_php_server( $subdir );
 	}
 );
+
+$steps->Given( "/^a blex test block '([^\s]+)'$/",
+	function ( $world, $test_block_name ) {
+
+		$src = dirname(__FILE__).'/../../TestData/'.$test_block_name;
+		$dest = $world->variables['RUN_DIR'].'/wp-content/plugins/'.$test_block_name;
+
+		if( file_exists( $dest ) ) {
+			unset( $dest );
+		}
+
+		mkdir( $dest, 0777, true /*recursive*/ );
+		$world->inst_copy_dir( $src, $dest );
+	}
+);
+
+$steps->Given( "/^the (.+) (file|directory) is missing$/",
+	function ( $world, $missing_target, $type ) {
+
+		$missing_target = $world->replace_variables( $missing_target );
+		if( 'file' === $type ) {
+
+			if( file_exists( $missing_target ) ) {
+				unlink( $missing_target );
+			}
+
+		} else if( 'directory' === $type ) {
+
+			blex_given_delete_files( $missing_target, $missing_target );
+		}
+	}
+);
+
+/*
+	Courtesy of https://paulund.co.uk/php-delete-directory-and-files-in-directory
+*/
+function blex_given_delete_files( $target ) {
+
+    if(is_dir($target)){
+
+        $files = glob( $target . '*', GLOB_MARK ); //GLOB_MARK adds a slash to directories returned
+        foreach( $files as $file ){
+			
+			blex_given_delete_files( $file );
+        }
+
+        rmdir( $target );
+    } elseif( is_file($target) ) {
+
+        unlink( $target );  
+    }
+}
+
+$steps->Given( "/^a (.+) blex.info.json file$/",
+	function ( $world, $location ) {
+
+		$location = $world->replace_variables( $location );
+		$blex_file = '
+	{
+		"info_version": "1.0",
+		"template": "cgb",
+		"config_directory": "node_modules\/cgb-scripts\/config",
+		"distributon_directory": "dist",
+		"imports_file": "src\/blocks.js",
+		"source_folder": "src",
+		"blocks": [
+			{
+				"container_directory": "src\/block",
+				"registration_file": "src\/block\/block.js",
+				"styles": [
+					"src\/block\/editor.scss",
+					"src\/block\/style.scss"
+				],
+				"namespace": "cgb\/block-blex-test-block",
+				"plugin_data": {
+					"location": "src\/init.php",
+					"namespace": "cgb\/block-blex-test-block",
+					"style": "blex_test_block-cgb-style-css",
+					"editor_script": "blex_test_block-cgb-block-js",
+					"editor_style": "blex_test_block-cgb-block-editor-css",
+					"init_hook": "blex_test_block_cgb_block_assets"
+				}
+			}
+		]
+	}
+';
+		file_put_contents( $location, $blex_file );
+	}
+);

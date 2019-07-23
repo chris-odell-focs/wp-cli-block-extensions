@@ -12,7 +12,7 @@ namespace FoFo_Blex;
 */
 class FoFo_Blex extends FoFo_Blex_Command {
 
-	const VERSION = '1.0.4';
+	const VERSION = '1.0.5';
 
 	/**
 	* Initialise a new block into blex by generating a blex.info.json file

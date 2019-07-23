@@ -53,7 +53,7 @@ class FoFo_Blex_CGB extends FoFo_Blex_Command {
 	*
 	* ## Examples
 	*
-	*    # Create a block
+	*    1. Create a block
 	*    $ wp blex cgb my-test-block
 	*	 Success: A new ESNext style block created in a sub directory of the Plugins folder called my-test-block
 	*

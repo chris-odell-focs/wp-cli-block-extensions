@@ -596,6 +596,10 @@ class FeatureContext extends BehatContext implements ClosuredContextInterface {
 		Process::create( Utils\esc_cmd( "cp -r %s/* %s", $src_dir, $dest_dir ) )->run_check();
 	}
 
+	public function inst_copy_dir( $src_dir, $dest_dir ) {
+		self::copy_dir( $src_dir, $dest_dir );
+	}
+
 	public function add_line_to_wp_config( &$wp_config_code, $line ) {
 		$token = "/* That's all, stop editing!";
 

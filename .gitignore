@@ -9,3 +9,6 @@ vendor/
 *.log
 composer.lock
 .vs/
+
+!TestData/node_modules/
+!TestData/node_modules/*

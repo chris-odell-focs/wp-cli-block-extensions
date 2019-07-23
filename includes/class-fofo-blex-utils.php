@@ -4,9 +4,9 @@ namespace FoFo_Blex;
 
 class FoFo_Blex_Utils {
 
-	public static function in_wp_plugins_sub_folder( $idx ) {
+	public static function in_wp_plugins_sub_folder( $idx, $folder ) {
 
-		$path_parts = explode( DIRECTORY_SEPARATOR, getcwd() );
+		$path_parts = explode( DIRECTORY_SEPARATOR, $folder );
 
 		$path_parts_length = count( $path_parts );
 		$have_path_parts = $path_parts_length > $idx;
@@ -23,5 +23,20 @@ class FoFo_Blex_Utils {
 		}
 
 		return false;
+	}
+
+	public static function report( $message ) {
+
+		\WP_CLI::log($message);
+	}
+
+	public static function warn( $message ) {
+
+		\WP_CLI::warning($message);
+	}
+
+	public static function error( $message ) {
+
+		\WP_CLI::error($message);
 	}
 }
