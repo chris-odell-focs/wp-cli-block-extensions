@@ -24,4 +24,19 @@ class FoFo_Blex_Utils {
 
 		return false;
 	}
+
+	public static function report( $message ) {
+
+		\WP_CLI::log($message);
+	}
+
+	public static function warn( $message ) {
+
+		\WP_CLI::warning($message);
+	}
+
+	public static function error( $message ) {
+
+		\WP_CLI::error($message);
+	}
 }
