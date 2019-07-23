@@ -184,15 +184,6 @@ class FeatureContext extends BehatContext implements ClosuredContextInterface {
 		echo 'WordPress ' . $result->stdout;
 		echo PHP_EOL;
 
-		//copy the blex test block to the wp install
-		//$wp_version_suffix = ( $wp_version = getenv( 'WP_VERSION' ) ) ? "-$wp_version" : '';
-		//$blex_data_dir = sys_get_temp_dir() . '/wp-cli-test-core-install-cache' . $wp_version_suffix.'/wp-content/plugins/blex-test-block';
-		//if( !file_exists( $blex_data_dir ) ) {
-		//	$test_data_dir = realpath( __DIR__ . '/../../TestData' );
-		//	var_dump($blex_data_dir);
-		//	var_dump($test_data_dir);
-		//}
-
 		// Remove install cache if any (not setting the static var).
 		$wp_version_suffix = ( $wp_version = getenv( 'WP_VERSION' ) ) ? "-$wp_version" : '';
 		$install_cache_dir = sys_get_temp_dir() . '/wp-cli-test-core-install-cache' . $wp_version_suffix;
