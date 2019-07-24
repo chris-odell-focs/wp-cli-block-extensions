@@ -416,3 +416,19 @@ Feature: Run '$ wp blex rename'
     """
     add_action( 'init', 'blex_test_block_blex_block_assets' );
     """
+  @rename_alias
+  Scenario: Rename a blocks registration file to 'index.js' using the 'rn' alias
+    Given a WP install
+    And a blex test block 'blex-test-block'
+    And a {RUN_DIR}/wp-content/plugins/blex-test-block/blex.info.json blex.info.json file
+
+    When I run `wp blex rn block 'cgb/block-blex-test-block' registration-file index.js --working_dir={RUN_DIR}/wp-content/plugins/blex-test-block`
+    Then the {RUN_DIR}/wp-content/plugins/blex-test-block/src/block/index.js file should exist
+    And the {RUN_DIR}/wp-content/plugins/blex-test-block/src/blocks.js file should contain:
+    """
+    import './block/index.js';
+    """
+    And the {RUN_DIR}/wp-content/plugins/blex-test-block/blex.info.json file should contain:
+    """
+    src\/block\/index.js
+    """
