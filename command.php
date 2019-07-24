@@ -62,3 +62,4 @@ spl_autoload_register(function ($class){
 WP_CLI::add_command( 'blex', new \FoFo_Blex\FoFo_Blex() );
 WP_CLI::add_command( 'blex cgb', new \FoFo_Blex\FoFo_Blex_CGB() );
 WP_CLI::add_command( 'blex rename', new \FoFo_Blex\FoFo_Blex_Rename() );
+WP_CLI::add_command( 'blex rn', new \FoFo_Blex\FoFo_Blex_Rename() );
