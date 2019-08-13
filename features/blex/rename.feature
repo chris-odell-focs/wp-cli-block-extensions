@@ -235,6 +235,101 @@ Feature: Run '$ wp blex rename'
     Error: The plugin file 'src/init.php' could not be found.
     """
 
+  Scenario: Rename block namespace 'cgb/block-blex-test-block' to 'blex/block-blex-test-block', but the editor.scss file is not found
+    Given a WP install
+    And a blex test block 'blex-test-block'
+    And a wp-content/plugins/blex-test-block/blex.info.json file:
+    """
+    {
+        "info_version": "1.0",
+        "template": "cgb-ejected",
+        "config_directory": "config",
+        "distributon_directory": "dist",
+        "imports_file": "src\/blocks.js",
+        "source_folder": "src",
+        "blocks": [
+            {
+                "container_directory": "src\/block",
+                "registration_file": "src\/block\/block.js",
+                "styles": [
+                    "src\/block\/editor_notfound.scss",
+                    "src\/block\/style.scss"
+                ],
+                "namespace": "cgb\/block-blex-test-block",
+                "plugin_data": {
+                    "location": "src\/init.php",
+                    "namespace": "cgb\/block-blex-test-block",
+                    "style": "blex_test_block-cgb-style-css",
+                    "editor_script": "blex_test_block-cgb-block-js",
+                    "editor_style": "blex_test_block-cgb-block-editor-css",
+                    "init_hook": "blex_test_block_cgb_block_assets"
+                }
+            }
+        ]
+    }
+    """
+
+    When I try `wp blex rename block 'cgb/block-blex-test-block' namespace 'blex/block-blex-test-block' --working_dir={RUN_DIR}/wp-content/plugins/blex-test-block`
+    Then STDERR should contain:
+    """
+    blex-test-block/src/block/editor_notfound.scss' could not be found.
+    """
+
+  Scenario: Rename block namespace 'cgb/block-blex-test-block' to 'blex/block-blex-test-block', but the style.scss file is not found
+    Given a WP install
+    And a blex test block 'blex-test-block'
+    And a wp-content/plugins/blex-test-block/blex.info.json file:
+    """
+    {
+        "info_version": "1.0",
+        "template": "cgb-ejected",
+        "config_directory": "config",
+        "distributon_directory": "dist",
+        "imports_file": "src\/blocks.js",
+        "source_folder": "src",
+        "blocks": [
+            {
+                "container_directory": "src\/block",
+                "registration_file": "src\/block\/block.js",
+                "styles": [
+                    "src\/block\/editor.scss",
+                    "src\/block\/style_notfound.scss"
+                ],
+                "namespace": "cgb\/block-blex-test-block",
+                "plugin_data": {
+                    "location": "src\/init.php",
+                    "namespace": "cgb\/block-blex-test-block",
+                    "style": "blex_test_block-cgb-style-css",
+                    "editor_script": "blex_test_block-cgb-block-js",
+                    "editor_style": "blex_test_block-cgb-block-editor-css",
+                    "init_hook": "blex_test_block_cgb_block_assets"
+                }
+            }
+        ]
+    }
+    """
+
+    When I try `wp blex rename block 'cgb/block-blex-test-block' namespace 'blex/block-blex-test-block' --working_dir={RUN_DIR}/wp-content/plugins/blex-test-block`
+    Then STDERR should contain:
+    """
+    blex-test-block/src/block/style_notfound.scss' could not be found.
+    """
+
+  Scenario: Rename block namespace 'cgb/block-blex-test-block' to 'blex/block-blex-test-block', and style.css and editor.css should contain upddated class name
+    Given a WP install
+    And a blex test block 'blex-test-block'
+    And a {RUN_DIR}/wp-content/plugins/blex-test-block/blex.info.json blex.info.json file
+
+    When I run `wp blex rename block 'cgb/block-blex-test-block' namespace 'blex/block-blex-test-block' --working_dir={RUN_DIR}/wp-content/plugins/blex-test-block`
+    And the {RUN_DIR}/wp-content/plugins/blex-test-block/src/block/editor.scss file should contain:
+    """
+    .wp-block-blex-block-blex-test-block
+    """
+    And the {RUN_DIR}/wp-content/plugins/blex-test-block/src/block/style.scss file should contain:
+    """
+    .wp-block-blex-block-blex-test-block
+    """
+
   Scenario: Rename block namespace 'cgb/block-blex-test-block' to 'blex/block-blex-test-block'
     Given a WP install
     And a blex test block 'blex-test-block'
@@ -252,6 +347,14 @@ Feature: Run '$ wp blex rename'
     And the {RUN_DIR}/wp-content/plugins/blex-test-block/blex.info.json file should contain:
     """
     "namespace": "blex\/block-blex-test-block",
+    """
+    And the {RUN_DIR}/wp-content/plugins/blex-test-block/src/block/editor.scss file should contain:
+    """
+   .wp-block-blex-block-blex-test-block
+    """
+    And the {RUN_DIR}/wp-content/plugins/blex-test-block/src/block/style.scss file should contain:
+    """
+   .wp-block-blex-block-blex-test-block
     """
 
   Scenario: Rename namespace 'cgb/block-blex-test-block' to 'blex/block-blex-test-block' using the alias 'bns'
@@ -416,7 +519,7 @@ Feature: Run '$ wp blex rename'
     """
     add_action( 'init', 'blex_test_block_blex_block_assets' );
     """
-  @rename_alias
+
   Scenario: Rename a blocks registration file to 'index.js' using the 'rn' alias
     Given a WP install
     And a blex test block 'blex-test-block'
