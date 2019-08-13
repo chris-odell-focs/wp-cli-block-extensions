@@ -64,4 +64,22 @@ class FoFo_Blex_Command {
 
 		return $command_line;
 	}
+
+	protected function check_for_blex_info( $current_folder ) {
+
+		if( !file_exists( $current_folder.'/blex.info.json' ) ) {
+
+			throw new FoFo_Blex_Command_Exception( "Could not find the 'blex.info.json' file which is required to continue." );
+		}
+	}
+
+	protected function get_working_directory( $assoc_args ) {
+
+		return ( isset( $assoc_args[ 'working_dir' ] ) ? $assoc_args[ 'working_dir' ] : getcwd() ).DIRECTORY_SEPARATOR;
+	}
+
+	protected function get_blex_info( $directory ) {
+		
+		return new FoFo_Blex_Info( $directory.'blex.info.json' );
+	}
 }

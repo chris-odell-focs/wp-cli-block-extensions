@@ -39,4 +39,9 @@ class FoFo_Blex_Utils {
 
 		\WP_CLI::error($message);
 	}
+
+	public static function success( $message ) {
+
+		\WP_CLI::success($message);
+	}
 }

@@ -416,7 +416,7 @@ Feature: Run '$ wp blex rename'
     """
     add_action( 'init', 'blex_test_block_blex_block_assets' );
     """
-  @rename_alias
+
   Scenario: Rename a blocks registration file to 'index.js' using the 'rn' alias
     Given a WP install
     And a blex test block 'blex-test-block'
