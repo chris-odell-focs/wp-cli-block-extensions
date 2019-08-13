@@ -284,6 +284,15 @@ class FoFo_Blex_Rename extends FoFo_Blex_Command {
 			];
 
 			$this->do_replace_in_block( 'namespace', $command_args, $assoc_args );
+
+			$command_args_2 = [
+				$args[2], //namespace(The new namespace)
+				'.wp-block-'.str_replace( "/", '-', $args[0] ), //search
+				'.wp-block-'.str_replace( "/", '-', $args[2] ), //replace
+			];
+
+			$this->do_replace_in_block( 'namespace_styles', $command_args_2, $assoc_args );
+
 		});
 	}
 
@@ -360,7 +369,7 @@ class FoFo_Blex_Rename extends FoFo_Blex_Command {
 
 			if( $block->namespace == $namespace ) {
 
-				$current_folder = $this->_current_folder.DIRECTORY_SEPARATOR;
+				$current_folder = $this->_current_folder;
 				$block_found = true;
 
 				$action_lists = $this->get_lists_for_do_replace( $current_folder, $block, $action );
@@ -387,7 +396,7 @@ class FoFo_Blex_Rename extends FoFo_Blex_Command {
 							$prop_name = $property->name;
 						}
 
-						if( '' === $search ) {
+						if( '' === $search && !empty( $prop_name ) ) {
 							$search = $target_blex_info_property->{$prop_name};
 						}
 
@@ -395,7 +404,9 @@ class FoFo_Blex_Rename extends FoFo_Blex_Command {
 						$file_content = str_replace( $search, $replace, $file_content );
 						file_put_contents( $file, $file_content );
 
-						$target_blex_info_property->{$prop_name} = $replace;
+						if( !empty( $prop_name ) ) {
+							$target_blex_info_property->{$prop_name} = $replace;
+						}
 						
 					} else {
 
@@ -431,6 +442,14 @@ class FoFo_Blex_Rename extends FoFo_Blex_Command {
 
 				$property_list[] = $property;
 
+				break;
+			
+			case 'namespace_styles' :
+
+				foreach( $block->styles as $style_file ) {
+
+					$file_list[ $current_folder.$style_file ] = "The style file '".$current_folder.$style_file."' could not be found.";
+				}
 				break;
 
 			case 'style' :
