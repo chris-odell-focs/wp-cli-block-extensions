@@ -85,6 +85,13 @@ class FoFo_Blex_Import extends FoFo_Blex_Command {
 			$blex_info = new FoFo_Blex_Info( $this->_current_folder.DIRECTORY_SEPARATOR.'blex.info.json' );
 			$blex_info->create( $this->_current_template_name, $this->_template );
 
+			$src_define = $this->get_src_define();
+			if( '' !== $src_define ) {
+
+				$this->add_src_define( $src_define );
+				$this->update_plugin_init_file( $blex_info, $src_define );
+			}
+
 			FoFo_Blex_Utils::report( "'config' value=".$blex_info->config_directory );
 			FoFo_Blex_Utils::report( "'dist' value=".$blex_info->distributon_directory );
 			FoFo_Blex_Utils::report( "'imports' value=".$blex_info->imports_file );
@@ -98,5 +105,51 @@ class FoFo_Blex_Import extends FoFo_Blex_Command {
 			FoFo_Blex_Utils::report( 'Saving blex.info.json' );
 			$blex_info->write();
 		});
+	}
+
+	private function get_src_define() {
+
+		$src_define = null;
+		$plugin_file_spec = $this->_current_folder.DIRECTORY_SEPARATOR.'plugin.php';
+		$plugin_content = file_get_contents( $plugin_file_spec );
+		$plugin_name_matches = [];
+		preg_match( '/Plugin Name:\s.*\s/U', $plugin_content, $plugin_name_matches );
+		if( count( $plugin_name_matches ) > 0 ) {
+
+			$plugin_name = str_replace( 'plugin name:', '', strtolower( $plugin_name_matches[0] ) );
+			$plugin_name = str_replace( '-', '_', $plugin_name );
+			$plugin_name = str_replace( ' ', '_', trim( $plugin_name ) );
+			$plugin_name = strtoupper( $plugin_name );
+			$src_define = $plugin_name.'_SRC';
+
+		} else {
+
+			throw new FoFo_Blex_Command_Exception( 'The plugin name could not be found in the plugin.php file. Some blex functions may not work correctly.' );
+		}
+
+		return $src_define;
+	}
+
+	private function add_src_define( $src_define ) {
+
+		$plugin_file_spec = $this->_current_folder.DIRECTORY_SEPARATOR.'plugin.php';
+		$plugin_content = file_get_contents( $plugin_file_spec );
+		$plugin_content = $plugin_content.PHP_EOL."if( !defined( '".$src_define."' ) ) {".PHP_EOL.
+			"\tdefine( '".$src_define."', plugin_dir_path( __FILE__ ).'src'  );".PHP_EOL.
+			"}".PHP_EOL;
+
+		file_put_contents( $plugin_file_spec, $plugin_content );
+	}
+
+	private function update_plugin_init_file( $blex_info, $src_define ) {
+
+		//At this point we will only have one block so we can safely take the
+		//first block
+
+		$block = $blex_info->blocks[0];
+		$init_file_spec = $this->_current_folder.DIRECTORY_SEPARATOR.$block->plugin_data->location;
+		$content = file_get_contents( $init_file_spec );
+		$content = str_replace( 'dirname( __FILE__ )', $src_define, $content );
+		file_put_contents( $init_file_spec, $content );
 	}
 }
