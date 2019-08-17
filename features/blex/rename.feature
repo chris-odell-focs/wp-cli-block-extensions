@@ -108,6 +108,14 @@ Feature: Run '$ wp blex rename'
     """
     "container_directory": "src\/my-block",
     """
+    And the {RUN_DIR}/wp-content/plugins/blex-test-block/blex.info.json file should contain:
+    """
+    "src\/my-block\/editor.scss",
+    """
+    And the {RUN_DIR}/wp-content/plugins/blex-test-block/blex.info.json file should contain:
+    """
+		"src\/my-block\/style.scss"
+    """
 
   Scenario: Rename a block directory called 'block' in the 'src/block' directory to 'my-block' using the cd alias
     Given a WP install

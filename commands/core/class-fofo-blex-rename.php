@@ -46,10 +46,10 @@ class FoFo_Blex_Rename extends FoFo_Blex_Command {
 
 		$this->execute( $args, $assoc_args, function( $args, $assoc_args ) {
 
-			$this->_current_folder = ( isset( $assoc_args[ 'working_dir' ] ) ? $assoc_args[ 'working_dir' ] : getcwd() ).DIRECTORY_SEPARATOR;
-			$this->check_for_blex_info();
+			$this->_current_folder = $this->get_working_directory( $assoc_args );
+			$this->check_for_blex_info( $this->_current_folder );
 
-			$blex_info = new FoFo_Blex_Info( $this->_current_folder.'blex.info.json' );
+			$blex_info = $this->get_blex_info( $this->_current_folder );
 			$blex_info->read();
 
 			$new_imports_file = dirname( $blex_info->imports_file ).DIRECTORY_SEPARATOR.$args[0];
@@ -183,8 +183,8 @@ class FoFo_Blex_Rename extends FoFo_Blex_Command {
 
 	private function rename_registration_file_or_container_dir( $args, $assoc_args ) {
 
-		$this->_current_folder = isset( $assoc_args[ 'working_dir' ] ) ? $assoc_args[ 'working_dir' ] : getcwd();
-		$this->check_for_blex_info();
+		$this->_current_folder = $this->get_working_directory( $assoc_args );
+		$this->check_for_blex_info( $this->_current_folder );
 
 		$namespace = $args[0];
 
@@ -259,6 +259,13 @@ class FoFo_Blex_Rename extends FoFo_Blex_Command {
 					} else if( $action === self::CONTAINER_DIRECTORY_ACTION ) {
 
 						$block->registration_file = str_replace( $block->container_directory, $updated_target, $block->registration_file );
+						
+						$updated_styles = [];
+						foreach( $block->styles as $style_locaton ) {
+							$updated_styles[] = str_replace( $block->container_directory, $updated_target, $style_locaton );
+						}
+
+						$block->styles = $updated_styles;
 						$block->container_directory = $updated_target;
 					}
 
@@ -354,14 +361,14 @@ class FoFo_Blex_Rename extends FoFo_Blex_Command {
 
 	private function do_replace_in_block( $action, $command_args, $assoc_args ) {
 
-		$this->_current_folder = ( isset( $assoc_args[ 'working_dir' ] ) ? $assoc_args[ 'working_dir' ] : getcwd() ).DIRECTORY_SEPARATOR;
-		$this->check_for_blex_info();
+		$this->_current_folder = $this->get_working_directory( $assoc_args );
+		$this->check_for_blex_info( $this->_current_folder );
 
 		$namespace = $command_args[0];
 		$search = $command_args[1];
 		$replace = $command_args[2];
 
-		$blex_info = new FoFo_Blex_Info( $this->_current_folder.'blex.info.json' );
+		$blex_info = $this->get_blex_info( $this->_current_folder );
 		$blex_info->read();
 
 		$block_found = false;
@@ -479,13 +486,5 @@ class FoFo_Blex_Rename extends FoFo_Blex_Command {
 			'file_list' => $file_list,
 			'property_list' => $property_list
 		];
-	}
-
-	private function check_for_blex_info() {
-
-		if( !file_exists( $this->_current_folder.'/blex.info.json' ) ) {
-
-			throw new FoFo_Blex_Command_Exception( "Could not find the 'blex.info.json' file which is required to continue." );
-		}
 	}
 }
