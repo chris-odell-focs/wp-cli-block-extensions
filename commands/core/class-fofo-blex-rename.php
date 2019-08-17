@@ -259,6 +259,13 @@ class FoFo_Blex_Rename extends FoFo_Blex_Command {
 					} else if( $action === self::CONTAINER_DIRECTORY_ACTION ) {
 
 						$block->registration_file = str_replace( $block->container_directory, $updated_target, $block->registration_file );
+						
+						$updated_styles = [];
+						foreach( $block->styles as $style_locaton ) {
+							$updated_styles[] = str_replace( $block->container_directory, $updated_target, $style_locaton );
+						}
+
+						$block->styles = $updated_styles;
 						$block->container_directory = $updated_target;
 					}
 

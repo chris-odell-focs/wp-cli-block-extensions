@@ -1,3 +1,4 @@
+@move
 Feature: Run '$ wp blex move'
 
     Scenario: Run move without a working directory specified, and not running in plugin folder
@@ -101,6 +102,10 @@ Feature: Run '$ wp blex move'
                     "namespace": "cgb\/block-blex-test-block",
                     "plugin_data": {
                         "location": "src\/init.php",
+        """
+        And the {RUN_DIR}/wp-content/plugins/blex-test-block/plugin.php file should contain:
+        """
+        require_once plugin_dir_path( __FILE__ ) . 'src/block2/init.php';
         """
 
     Scenario: Move the block to a directory named 'block2' where the plugin file has been moved to the target folder previously
@@ -209,7 +214,6 @@ Feature: Run '$ wp blex move'
         "location": "src\/block\/init.php",
         """
     
-    @move
     Scenario: Move the block plugin registration file to a directory named 'block' using the alias 'pf'
         Given a WP install
         And a blex test block 'blex-test-block'
@@ -228,4 +232,16 @@ Feature: Run '$ wp blex move'
         And the {RUN_DIR}/wp-content/plugins/blex-test-block/blex.info.json file should contain:
         """
         "location": "src\/block\/init.php",
+        """
+
+    Scenario: Move the block to a directory named 'block/sub' and sub is a sub directory of the source directory
+        Given a WP install
+        And a blex test block 'blex-test-block'
+        And a empty {RUN_DIR}/wp-content/plugins/blex-test-block/src/block/sub directory
+        And a {RUN_DIR}/wp-content/plugins/blex-test-block/blex.info.json blex.info.json file
+
+        When I try `wp blex move block 'cgb/block-blex-test-block' 'block/sub' --working_dir={RUN_DIR}/wp-content/plugins/blex-test-block`
+        And STDERR should contain:
+        """
+        Error: The directory 'block/sub' cannot be a sub directory of the block 'cgb/block-blex-test-block' container directory.
         """
