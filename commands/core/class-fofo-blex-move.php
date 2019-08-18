@@ -2,11 +2,61 @@
 
 namespace FoFo_Blex;
 
+/**
+ * Move the elements of a block
+ */
 class FoFo_Blex_Move extends FoFo_Blex_Command {
 
     private $_current_folder = null;
 	private $_blex_info = null;
 
+    /**
+    * Move the elements associated with a block
+    *
+	* ## Options
+    *
+    *   <action>
+    *   : The action to take, only 'block' is currently supported.
+    *
+	*   <namespace>
+	*   : The namespace of the block e.g. cgb/block-blex-test-block
+    *   
+    *   <element>   
+    *   : The element to move, if omitted then the default is to move the contianer directory of the block
+    *
+    *   <name>
+    *   : The new element name.
+    *
+	*	[--working_dir=<plugin director>]
+	*	: The WordPress plugin directory to run in. If omitted defaults to the current working directory.
+	*
+	* ## Notes
+	*
+    *	Only one element is available, 'plugin-file' if the element is omitted then the default action of moving 
+    *   the block container directory will be assumed. 'plugin-file' can also be abbreviated to 'pf, and the move command can be abbreviated to 'mv'.
+    *   The root for all folders used in the move command is the 'src' folder. i.e. using an argument of 'block' in a move command will refer to 'src/block'.
+    *   A plugin file is the 'init.php' file used to define the block NOT the plugin.php file.
+    *   A block cannot be moved to a sub folder of the current container directory i.e. a block in 'src/block' cannot be moved to 'src/block/sub-directory'
+	*
+	* ## Examples
+	*
+    *	1. # Move the pugin file for a block with the namespace 'cgb/block-blex-test-block' to a folder called 'block' under the src folder
+    *
+    *	    $ wp blex move block 'cgb/block-blex-test-block' plugin-file 'block'
+    *       $ wp blex move block 'cgb/block-blex-test-block' pf 'block'
+    *       $ wp blex mv block 'cgb/block-blex-test-block' pf 'block'
+    *
+    *   2. # Move the block with the namespace 'cgb/block-blex-test-block' to a folder called 'block'
+    *
+    *	    $ wp blex move block 'cgb/block-blex-test-block' 'block'
+    *       $ wp blex mv block 'cgb/block-blex-test-block' 'block'
+    *
+    *   3. # Move the block with the namespace 'cgb/block-blex-test-block' to a folder called 'allblocks/block' under the src folder
+    *
+    *       $ wp blex move block 'cgb/block-blex-test-block' 'allblocks/block'
+    *       $ wp blex mv block 'cgb/block-blex-test-block' 'allblocks/block'
+    *
+	*/
     public function block( $args, $assoc_args ) {
 
         $this->execute( $args, $assoc_args, function( $args, $assoc_args ) {
